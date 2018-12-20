@@ -11,21 +11,21 @@ e = -1.602e-19;
 q = abs(e);
 epsilon0 = 8.854187817e-12;
 u0 = 4e-7 * pi;  
-f = 120e6;
+f = 12e6;
 w = 2 * pi * f;
 c = 3e8;
 lambda = c / f;
 k = 2 * pi / lambda;
 
-L = 0.4;
+L = 0.2;
 v0 = 1e6;
-simcount = 20000;
+simcount = 2000;
 tmin = 0;
 tmax = L / v0;
 t = linspace(tmin, tmax, simcount);
 dt = (tmax - tmin) / length(t);
 B = 0.3e-3;
-E0 = 1000;
+E0 = 0.01;
 vEM = q * E0 / (m * w); 
 xEM = q * E0 / (m * w^2);
 
@@ -89,10 +89,10 @@ for i = simcount * startBx / L + 1 : simcount * endBx / L;
     last_xyz = trajectory_xyz(i - 1, 1:end);
     if last_xyz(1) < splitx
         isConvergingMagnetic = 1;
-        Bscale = 0.0;
+        Bscale = 1.2;
     else
         isConvergingMagnetic = 0;
-        Bscale = 0.05;
+        Bscale = 0.5;
     end
     if isConvergingMagnetic == 0
         if last_xyz(2) < xVpp * 0.5 
