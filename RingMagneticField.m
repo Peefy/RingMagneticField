@@ -83,13 +83,13 @@ trajectory_xyz = zeros(simcount, AXES_COUNT);
 
 for i = 2 : simcount * startBx / L    
     i
-    E_acc_xyz = [0, q * E0 / m * cos(w * t(i)), 0];
+    E_acc_xyz = [0, q * E0 / m * cos(w * t(i) + 0.5 * pi), 0];
     v_xyz(i + 1, 1:end) = v_xyz(i, 1:end) + (E_acc_xyz) * dt;
     trajectory_xyz(i, 1:end) = trajectory_xyz(i - 1, 1:end) + 0.5 * dt * (v_xyz(i, 1:end) + v_xyz(i + 1, 1:end)); 
 end
 
 for i = simcount * startBx / L + 1 : simcount * endBx / L;
-    i
+    i;
     last_xyz = trajectory_xyz(i - 1, 1:end);
     if isConvergingMagnetic == 0
         if last_xyz(2) > 1e-12

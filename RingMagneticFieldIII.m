@@ -11,7 +11,7 @@ e = -1.602e-19;
 q = abs(e);
 epsilon0 = 8.854187817e-12;
 u0 = 4e-7 * pi;  
-f = 1200e6;
+f = 2e6;
 w = 2 * pi * f;
 c = 3e8;
 lambda = c / f;
@@ -19,7 +19,7 @@ k = 2 * pi / lambda;
 
 R = m * 0.05 / (q * 1e-9);
 
-L = 0.2;
+L = 0.8;
 v0 = 1e3;
 simcount = 10000;
 tmin = 0;
@@ -28,7 +28,7 @@ t = linspace(tmin, tmax, simcount);
 dt = (tmax - tmin) / length(t);
 global isHasE0
 isHasE0 = 1;
-E0 = 0.1;
+E0 = 570;
 E0_2Pdbm = 20 * log10(E0 * 1e6) - 1.65 + 20 * log10(lambda / 2) - 107;
 Pdbm = -40;
 Pdbm_2E0 = 10^((Pdbm + 107 - 20 * log10(lambda / 2) + 1.65) / 20.0 - 6);
@@ -94,7 +94,7 @@ end
 
 v_xyz = [vx' vy' vz'];
 global isHasB
-isHasB = 1;
+isHasB = 0;
 if isHasB == 1
     B_xyz = [zeros(simcount, 1), zeros(simcount, 1), ones(simcount, 1) * B];
 else
@@ -121,9 +121,9 @@ for i = 2 : simcount - 1;
         end
     end
     if last_xyz(1) >= startBx | isHasE0 == 0
-        E_acc_xyz = [0 0 0];
+        E_acc_xyz = [0 q * E0 / m * cos(w * t(i) + 0.5 * pi) 0];
     else
-        E_acc_xyz = [0 q * E0 / m * cos(w * t(i)) 0];
+        E_acc_xyz = [0 q * E0 / m * cos(w * t(i) + 0.5 * pi) 0];
     end
     Ereverse_a_xyz = Ereverse_a(i, 1:end);
     if getValueAbs(B_xyz) == 0 | isHasB == 0
